@@ -133,21 +133,23 @@ routerC.get('/:id/productos',(req,res)=> {
 
 routerC.post('/:id/productos',(req,res)=>{
     let id= req.params.id; 
-    if (conten.getCarrByiD(id)==null) {
+    let idP = req.body.id;
+    if (conten.getCarrById(id)==null) {
         res.json({
             error : 'Carrito no encontrado'})}
         else{
-            conten.AddProdCarrito(id,req.body)
+            let obj = conten.getProdByiD(idP);
+            conten.AddProdCarrito(id,obj)
             res.json({
                 result: 'Producto agregado', 
-                Producto : req.body})
+                Producto : obj})
         }
 });
 
 routerC.delete('/:id/productos/:id_prod',(req,res)=>{
     let idC= req.params.id; 
     let idP= req.params.id_prod; 
-    if (conten.getCarrByiD(id)==null) {
+    if (conten.getCarrById(idC)===null) {
         res.json({
             error : 'Carrito no encontrado'})}
         else{
@@ -182,4 +184,5 @@ const server  = app.listen(PORT, () =>  {
      //conten.newProducto({"nombre": 'Arrocera' ,"precio": 2204 ,"url": 'url4'});
      
 
+    
     
