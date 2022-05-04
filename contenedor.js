@@ -14,7 +14,7 @@ newProducto(obj){
         try{
        this.idP ++ ;
        obj.id = this.idP;
-       obj.timestamp = Date.now().toLocaleString();
+       obj.timestamp =  new Date().toLocaleDateString();
        this.productos.push(obj);
        fs.writeFileSync(this.FsProductos,JSON.stringify(this.productos))
         }
@@ -67,9 +67,10 @@ AddProductoCarrito(idC,idP){
             return null;
         }
 }
-getCarrByiD(id){
+getCarrById(id){
     try {
-     return this.carritos.find(carrito => carrito.id == id);
+        let found =this.carritos.find(carrito => id == carrito.id);
+     return  found;
     } catch (error) {
         console.log(error);
         return null;
@@ -126,9 +127,21 @@ editCarrById(id,obj){
 
 deleteProdCarrito(idC,idP){
     let  indiceC= this.carritos.findIndex(carr=>carr.id==idC);
-    let indIceP = this.carritos[indiceC].productos.findIndex(prod=>prod.id==idP);
-    this.carritos[indice].productos.splice(indiceP,1);
+    let indiceP = this.carritos[indiceC].productos.findIndex(prod=>prod.id==idP);
+    this.carritos[indiceC].productos.splice(indiceP,1);
     fs.writeFileSync(this.FsCarritos,JSON.stringify(this.carritos));
+}
+editProdById(id,obj){
+           
+    try {
+    obj.id=id;
+   let  indice= this.productos.findIndex(obj=>obj.id==id);
+      this.productos[indice]=obj;
+       fs.writeFileSync(this.FsProductos,JSON.stringify(this.productos))
+       } catch (error) {
+           console.log(error);
+           return null;
+       }   
 }
 
 }
